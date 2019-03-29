@@ -82,6 +82,7 @@ public class URLController {
             throw new ResourceNotFoundException("URL expired");}
 
     }
+
     @GetMapping("{shorterUrl}/{filter}")
     public ArrayList<UrlDataOnClick> shortUrlRedirect(@PathVariable String shorterUrl, @PathVariable String filter) {
         List<UrlDataOnClick> urlData = urlRepository.findByShorterUrl(shorterUrl).getUrlData();
@@ -93,11 +94,15 @@ public class URLController {
                 } else if (filter.contains("browser")) {
                     results.add(data.getBrowser());
                 }
+                else if (filter.contains("amount")) {
+                    results.add(urlData.size());
+                }
             }
-        }else {
-            results.add(urlData.size());
-        }
             return results;
+        }else {
+            return new ArrayList<>(urlRepository.findByShorterUrl(shorterUrl).getUrlData());
+        }
+
     }
 
 
