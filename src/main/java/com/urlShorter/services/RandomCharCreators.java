@@ -1,4 +1,4 @@
-package com.urlShorter.controllers.services;
+package com.urlShorter.services;
 
 public class RandomCharCreators {
 
