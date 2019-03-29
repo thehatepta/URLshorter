@@ -14,12 +14,6 @@ public class UrlDataOnClick {
     private LocalDate clickDate;
     private Long urlId;
 
-//    public UrlDataOnClick(Long id, String sourceIp, String browser, LocalDate clickDate, Long urlId) {
-//        this.sourceIp = sourceIp;
-//        this.browser = browser;
-//        this.clickDate = clickDate;
-//        this.urlId = urlId;
-//    }
 
 
     public UrlDataOnClick(Long urlId, String sourceIp, String browser) {

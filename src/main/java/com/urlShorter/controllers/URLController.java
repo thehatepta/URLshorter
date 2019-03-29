@@ -17,6 +17,8 @@ import javax.validation.Valid;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.urlShorter.services.urlServices.getRandomChars;
 
@@ -53,7 +55,7 @@ public class URLController {
         String name = null;
         if (null != userAgentString) {
             UserAgent userAgent = UserAgent.parseUserAgentString(request.getHeader("User-Agent"));
-             name = userAgent.getBrowser().getName();
+            name = userAgent.getBrowser().getName();
         }else {
             name = "request sent not from browser";
         }
@@ -79,6 +81,23 @@ public class URLController {
             byShorterUrl.setActivaion(false);
             throw new ResourceNotFoundException("URL expired");}
 
+    }
+    @GetMapping("{shorterUrl}/{filter}")
+    public ArrayList<UrlDataOnClick> shortUrlRedirect(@PathVariable String shorterUrl, @PathVariable String filter) {
+        List<UrlDataOnClick> urlData = urlRepository.findByShorterUrl(shorterUrl).getUrlData();
+        ArrayList results = new ArrayList();
+        if(!(filter.equals("all"))) {
+            for (UrlDataOnClick data : urlData) {
+                if (filter.contains("date")) {
+                    results.add(data.getClickDate());
+                } else if (filter.contains("browser")) {
+                    results.add(data.getBrowser());
+                }
+            }
+        }else {
+            results.add(urlData.size());
+        }
+            return results;
     }
 
 
