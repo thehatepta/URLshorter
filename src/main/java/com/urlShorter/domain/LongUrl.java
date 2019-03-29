@@ -1,7 +1,10 @@
 package com.urlShorter.domain;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -12,17 +15,20 @@ public class LongUrl {
     private Long id;
     private String longUrl;
     private String shorterUrl;
-    private Date estimateDate;
+    private LocalDate estimateDate;
+    private Boolean activation;
+    @OneToMany(cascade = {CascadeType.ALL}, targetEntity=UrlDataOnClick.class, mappedBy="urlId", fetch=FetchType.EAGER)
+    private List<UrlDataOnClick> urlData = new ArrayList<UrlDataOnClick>();
 
 
-    public LongUrl(String longLink, Date date, String shorterUrl) {
+    public LongUrl(String longLink, LocalDate date, String shorterUrl, Boolean activaion) {
         this.longUrl = longLink;
         this.estimateDate = date;
         this.shorterUrl = shorterUrl;
+        this.activation = activaion;
     }
 
     public LongUrl() {
-
     }
 
     public Long getId() {
@@ -42,18 +48,34 @@ public class LongUrl {
     }
 
     public String getShorterUrl() {
-        return shorterUrl;
+        return "http://localhost:8080/" + shorterUrl;
     }
 
     public void setShorterUrl(String shorterUrl) {
         this.shorterUrl = shorterUrl;
     }
 
-    public Date getEstimateDate() {
+    public LocalDate getEstimateDate() {
         return estimateDate;
     }
 
-    public void setEstimateDate(Date estimateDate) {
+    public void setEstimateDate(LocalDate estimateDate) {
         this.estimateDate = estimateDate;
+    }
+
+    public Boolean getActivaion() {
+        return activation;
+    }
+
+    public void setActivaion(Boolean activaion) {
+        this.activation = activaion;
+    }
+
+    public List<UrlDataOnClick> getUrlData() {
+        return urlData;
+    }
+
+    public void setUrlData(List<UrlDataOnClick> urlData) {
+        this.urlData = urlData;
     }
 }
